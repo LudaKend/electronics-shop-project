@@ -58,6 +58,6 @@ class Item:
 
     @staticmethod
     def string_to_number(item_string):
-        item_string = float(item_string)
-        return int(item_string)
+        number = float(item_string)
+        return int(number)
 
