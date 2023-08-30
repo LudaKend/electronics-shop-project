@@ -18,10 +18,6 @@ class Item:
 # добавление новых экземпляров (из прошлого Д/З закомментируем, потому что экземпляры будем создавать из csv-файла
 #        Item.all.append(self)
 
-
-    def __repr__(self):
-        return f"Item({self.__name},{self.price}, {self.quantity})"
-
     def calculate_total_price(self):
         '''получает общую стоимость конкретного товара в магазине'''
         return self.price * self.quantity
@@ -60,4 +56,10 @@ class Item:
     def string_to_number(item_string):
         number = float(item_string)
         return int(number)
+
+    def __repr__(self):
+        return f"Item('{self.__name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        return f'{self.__name}'
 

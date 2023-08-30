@@ -26,3 +26,12 @@ def test_string_to_number():
     '''тестируем преобразование строки в целое число'''
 
     assert Item.string_to_number('7.7') == 7
+
+def test_repr(item_test):
+    '''тестируем вывод атрибутов для отладки, используя фикстуру'''
+    assert item_test.__repr__() == "Item('Мышь', 1000, 1000)"
+
+def test_str(item_test):
+    '''тестируем пользовательский вывод атрибутов класса, используя фикстуру'''
+    assert item_test.__str__() == 'Мышь'
+
