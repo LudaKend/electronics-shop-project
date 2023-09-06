@@ -13,7 +13,7 @@ class Item:
     def __init__(self, name, price, quantity):
         self.__name = name
         self.price = price
-        self.quantity = quantity
+        self.quantity = int(quantity)
 #        self.discount_price = price * pay_rate
 # добавление новых экземпляров (из прошлого Д/З закомментируем, потому что экземпляры будем создавать из csv-файла
 #        Item.all.append(self)
@@ -62,4 +62,9 @@ class Item:
 
     def __str__(self):
         return f'{self.__name}'
+
+    def __add__(self, other):
+        if isinstance(self, Item) and isinstance(other, Item):
+            return self.quantity + other.quantity
+        return f'складывать можно только объекты класса Item и Phone'
 
