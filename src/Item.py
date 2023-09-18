@@ -5,12 +5,21 @@
 
 #импортирую модуль csv, позволяющий работать с текстовым файлом с разделителями, у которого расширение .csv
 import csv
+import os
 
 
 class InstantiateCSVError(Exception):
-    '''собственный класс-исключение'''
+    '''собственный класс-исключение для проверки файла на повреждение'''
     def __init__(self, *args, **kwargs):
-        self.message = '_Файл item.csv поврежден_' #args[0] if args else '_Файл item.csv поврежден_'
+        self.message = '_Файл items.csv поврежден_' #args[0] if args else '_Файл items.csv поврежден_'
+
+    def __str__(self):
+        return self.message
+
+class CantOpen(Exception):
+    '''собственный класс-исключение для проверки успешности открытия файла'''
+    def __init__(self, *args, **kwargs):
+        self.message = 'Файл не открывается'
 
     def __str__(self):
         return self.message
@@ -21,7 +30,7 @@ class Item:
     def __init__(self, name, price, quantity):
         self.__name = name
         self.price = price
-        print(quantity)
+#        print(quantity)
         self.quantity = int(quantity)
 #        self.discount_price = price * pay_rate
 # добавление новых экземпляров (из прошлого Д/З закомментируем, потому что экземпляры будем создавать из csv-файла
@@ -47,26 +56,28 @@ class Item:
         self.__name = name[:10]
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, filename='items.csv'):
         ''' класс-метод, инициализирующий экземпляры класса Item данными из файла src/items.csv'''
         cls.all.clear()
  #       print(Item.all)         # для отладки
-        try:
-         #   with open('../src/items.csv') as f:
-            f = open('../src/item.csv')
-            data_file = csv.DictReader(f)
-        except FileNotFoundError:
-            print('_Отсутствует файл item.csv_')
+        if os.path.exists(f'../src/{filename}') == False:
+            raise FileNotFoundError(f'Отсутствует файл {filename}')
         else:
+            try:
+                path = f'../src/{filename}'
+                f = open(path, encoding='cp1251')
+                data_file = csv.DictReader(f)
+            except:
+                raise CantOpen
             for line in data_file:
-                #print(line['quantity'])
+
                 if len(line['quantity']) == 0:
                     raise InstantiateCSVError
 
                 item1 = (cls(line['name'], line['price'], line['quantity']))
-                #print(item1)  # для отладки
+
                 cls.all.append(item1)
-                #           print(len(Item.all))  # для отладки
+
         #finally:
             f.close()
 
